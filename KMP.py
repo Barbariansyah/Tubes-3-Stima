@@ -1,4 +1,5 @@
 from queue import PriorityQueue
+from StopWord import removeStopWord
 #KMP
 def Prefix_Suffix(database):
     length = 0
@@ -19,42 +20,54 @@ def Prefix_Suffix(database):
                 i+=1
     return arr
 
-def KMPExact(pat,query):
+def KMPExact(pat,txt):
     PI = Prefix_Suffix(pat)
     M = len(pat)
-    N = len(query)
+    N = len(txt)
     i = 0
     j = 0
     exact = 0
+    count_same = 0
+    found = False
     while i<N:
-        if pat[j] == query[i]:
+        if pat[j] == txt[i]:
             i+=1
             j+=1
+            count_same+=1
         if j==M:
-            exact = float(j/M)
+            exact = float(count_same/N)
+            found = True
             break
-        elif i<N and pat[j]!=query[i]:
-            if (exact < float((j-1)/M)):
-                exact = float(j/M)
+        elif i<N and pat[j]!=txt[i]:
+            if (exact < float(count_same/N) and count_same>2):
+                exact = float(count_same/N)
+            count_same = 0
             if j!=0:
                 j = PI[j-1]
             else:
                 i+=1
     if (j<M):
-        if (exact < float((j-1)/M)):
-            exact = float(j/M)
-    return exact
+        if (exact < float(count_same/N) and count_same>2):
+            exact = float(count_same/N)
+    if (found):
+        return exact
+    else:
+        return 0
 
-def KMPNotExact(pat,query):
-    M = len(pat)
+def KMPNotExact(pat,txt):
+    N = len(txt)
+    #print(N)
     conf =0
     same_char = 0
+    #print(N-txt.count(' '))
     for words in pat.split(' '):
-        same_char += len(words)*KMPExact(words,query)
-    space = query.count(' ')
+        same_char += len(txt)*KMPExact(words,txt)
+        #print(same_char)
+        #print(words," ",KMPExact(words,txt)*len(txt))
+    space = txt.count(' ')
     if (space>pat.count(' ')):
         space = pat.count(' ')
-    conf = float ((same_char+space)/(M))
+    conf = float ((same_char+space)/(N))
     return conf
 
 def KMP(query,dictionary):
@@ -64,12 +77,14 @@ def KMP(query,dictionary):
     #iterasi semua keys dari dictionary
     for keys in dictionary:
         #Jika ketemu persis 
-        if (KMPExact(keys,query)==1):
+        temp_keys = removeStopWord(keys)
+        #print(temp_keys)
+        if (KMPExact(query,temp_keys)==1):
             output.append(keys)
             foundexact = True
             break
         else:
-            posiblequery.put((1-KMPNotExact(keys,query),keys))
+            posiblequery.put((1-KMPNotExact(query,temp_keys),keys))
     if (foundexact):
         return output
     else:
@@ -78,6 +93,7 @@ def KMP(query,dictionary):
         output = []
         while not posiblequery.empty():
             data = posiblequery.get()
+            #print(1-data[0]," ",data[1])
             if ((1-data[0])>=0.75):
                 above9 = True
                 output.append(data[1])
@@ -85,7 +101,10 @@ def KMP(query,dictionary):
                 if ((1-data[0])>=1):
                     break
             elif (not above9):
-                if((1-data[0])>=0.5):
+                if((1-data[0])>=0.25):
+                    output.append(data[1])
+                    countpos+=1
+                elif (len(output)>=1):
                     output.append(data[1])
                     countpos+=1
             if (countpos>=3):

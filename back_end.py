@@ -1,15 +1,9 @@
 import random
-from Sastrawi.StopWordRemover.StopWordRemoverFactory import StopWordRemoverFactory, StopWordRemover, ArrayDictionary
+from StopWord import removeStopWord
 from BM import BM
 from KMP import KMP
 from Regex import Regex
-def removeStopWord(query):
-    factory = StopWordRemoverFactory().get_stop_words()
-    more_stopword = ['!','.',',','?']
-    data = factory +more_stopword
-    dic = ArrayDictionary(data)
-    stopword = StopWordRemover(dic)
-    return stopword.remove(query)
+
 
 def read_dictionary(filename):
     dic = {}
@@ -17,7 +11,7 @@ def read_dictionary(filename):
         lines = file.readlines()
         for line in lines:
             question,answer = line.strip().split(':|:')
-            dic.update({removeStopWord(question):answer})
+            dic.update({question:answer})
     return dic
 
 def randomQuestion(dic):

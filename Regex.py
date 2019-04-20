@@ -1,5 +1,5 @@
 import re
-
+from StopWord import removeStopWord
 def RegexExact(pat,query):
     found = re.search(pat,query,flags=re.IGNORECASE)
     if (found!=None):
@@ -17,9 +17,10 @@ def RegexNotExact(pat,query):
 def Regex(query,dictionary):
     output = []
     for keys in dictionary:
-        if (RegexExact(keys,query)):
+        temp_keys = removeStopWord(keys)
+        if (RegexExact(query,temp_keys)):
             output.append((keys))
         else:
-            if (RegexNotExact(keys,query)):
+            if (RegexNotExact(query,temp_keys)):
                 output.append((keys))
     return output
