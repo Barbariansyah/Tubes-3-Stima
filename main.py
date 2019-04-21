@@ -10,8 +10,8 @@ dic = read_dictionary("database.txt")
 @app.route("/",methods = ['POST'])
 def main():
   data = request.form
-  algo = data['algorithm']
-  query = data['input']
+  algo = data['method']
+  query = data['query']
 
   answer = askBot(query,dic,algo)
   return json.dumps({'data':answer})
