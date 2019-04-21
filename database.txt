@@ -1,3 +1,13 @@
+Siapa nama kamu?:|:Nama saya Engi
+Apakah kamu jomblo?:|:Kamu aja kali yang jomblo. Hihihihi :D
+Kamu sudah makan?:|:Saya puasa seumur hidup, jadi ga akan makan.
+Apakah kamu pandai matematika?:|:Aku cupu, ngitung 1+1 aja gabisa
+1+1=:|:Aku ga bisa ngitung :'(
+Apakah asisten penguji ini ganteng?:|:Iya, ganteng bangeud
+Kamu dukung presiden nomor urut berapa?:|:Aku pendukung nomor 10 dong
+Boleh ga kamu aku panggil sayang?:|:Enggak :p
+Apa tujuan kamu diciptakan?:|:Buat memenuhi tugas kuliahnya pencipta aku
+Apakah kamu sedih?:|:Iya, aku sedih soalnya diciptain cuman buat memenuhi tugas kuliahnya pencipta aku :'(
 Siapa nama koordinator dosen mata kuliah strategi algoritma 2018/2019 ?:|:Rinaldi Munir
 Siapa nama koordas strategi algoritma ?:|:Kevin Andrian Liwinata
 Berapa jumlah SKS minimal untuk lulus S1 di ITB ?:|:144 SKS
