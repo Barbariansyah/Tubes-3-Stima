@@ -7,11 +7,11 @@
 
         $source = "http://127.0.0.1:5000";
 
-        if(!isset($_SESSION['bot'])){
+        if(!isset($_SESSION['user'])){
             $_SESSION['user'] = array();
             $_SESSION['bot'] = array();
             $_SESSION['method'] = 'Regex';
-            array_push($_SESSION['bot'], "Hi, Aku ...");
+            array_push($_SESSION['bot'], "Hi, Aku Charles");
             array_push($_SESSION['bot'], "Ada yang bisa kubantu?");
         }
 
@@ -22,14 +22,16 @@
             if (isset($_POST['query']) && $_POST['query']!== ''){
                 array_push($_SESSION['user'], $chat);
 
-                $temp = curl_init($source);
-                curl_setopt($temp, CURLOPT_RETURNTRANSFER, TRUE);
-                curl_setopt($temp, CURLOPT_POST, 1);
-                curl_setopt($temp, CURLOPT_POSTFIELDS, http_build_query($_POST));
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $source);
+                curl_setopt($ch, CURLOPT_TCP_FASTOPEN, TRUE);
+                curl_setopt($ch, CURLOPT_FTTPAPPEND, TRUE);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+                curl_setopt($ch, CURLOPT_POST, TRUE);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($_POST));
                 var_dump(http_build_query($_POST));
-                //$tempResult = curl_exec($temp);
-                $result = json_decode(curl_exec($temp));
-                curl_close($temp);
+                $result = json_decode(curl_exec($ch));
+                curl_close($ch);
                 array_push($_SESSION['bot'], $result);
             }
 
