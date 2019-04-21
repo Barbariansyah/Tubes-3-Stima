@@ -11,7 +11,8 @@
             $_SESSION['user'] = array();
             $_SESSION['bot'] = array();
             $_SESSION['method'] = 'Regex';
-            array_push($_SESSION['bot'], "Hi, I am what can i help you with?");
+            array_push($_SESSION['bot'], "Hi, Aku ...");
+            array_push($_SESSION['bot'], "Ada yang bisa kubantu?");
         }
 
         if(isset($_POST['method'])){
@@ -48,6 +49,7 @@
     <head>
         <title>Chatbot Prototype</title>
         <link rel ="stylesheet" href="style.css">
+        <meta content="width=device-width, initial-scale=1" name="viewport" />
     </head>
 
     <body>
@@ -82,7 +84,7 @@
 
                         <div class ="chat bot">
                             <div class = "profile"><img src="bot2.gif"></div>
-                            <p class = "message"><?= $_SESSION['bot'][$i+1]->data?></p>
+                            <p class = "message"><?= $_SESSION['bot'][$i+2]->data?></p>
                         </div>
 
                         <?php
