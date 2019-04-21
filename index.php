@@ -15,35 +15,27 @@
             array_push($_SESSION['bot'], "Ada yang bisa kubantu?");
         }
 
-        if(isset($_POST['method'])){
-            $_SESSION['method'] = $_POST['method'];
-        }
 
         if(isset($_POST['querySubmitted'])){
+            $_SESSION['method'] = $_POST['method'];
             $chat = $_POST['query'];
-            if (isset($_POST['query'])){
+            if (isset($_POST['query']) && $_POST['query']!== ''){
                 array_push($_SESSION['user'], $chat);
-                $ans = getResult($source, http_build_query($_POST));
-                array_push($_SESSION['bot'], $ans);
+
+                $temp = curl_init($source);
+                curl_setopt($temp, CURLOPT_RETURNTRANSFER, TRUE);
+                curl_setopt($temp, CURLOPT_POST, 1);
+                curl_setopt($temp, CURLOPT_POSTFIELDS, http_build_query($_POST));
+                var_dump(http_build_query($_POST));
+                //$tempResult = curl_exec($temp);
+                $result = json_decode(curl_exec($temp));
+                curl_close($temp);
+                array_push($_SESSION['bot'], $result);
             }
 
             unset($_POST['querySubmitted']);
             header("Location: ".$_SERVER['PHP_SELF']);
         }
-
-        function getResult($url, $data){
-            $source = curl_init($url);
-            curl_setopt($source, CURLOPT_RETURNTRANSFER, TRUE);
-            curl_setopt($source, CURLOPT_POST, 1);
-            curl_setopt($source, CURLOPT_POSTFIELDS, $data);
-            var_dump($data);
-            $tempResult = curl_exec($source);
-            curl_close($source);
- 
-            $result = json_decode($tempResult);
-            return $result;
-        }
-
     ?>
 
     <head>
@@ -69,37 +61,47 @@
         </div>
 
         <div class = "chatbox">
-            <div class = "logs">
+            <div class = "logs" id="logs">
                         <div class ="chat bot">
-                            <div class = "profile"><img src="bot2.gif"></div>
+                            <div class = "profile"><img src="bot3.gif"></div>
                             <p class = "message"><?= $_SESSION['bot'][0]?></p>
                         </div>
+                        <div class ="chat bot">
+                            <div class = "profile"><img src="bot3.gif"></div>
+                            <p class = "message"><?= $_SESSION['bot'][1]?></p>
+                        </div>
             <?php
-                    $i = 0;
-                    while($i < sizeof($_SESSION['user'])){?>
+                    $size = sizeof($_SESSION['user']);
+                    for($i=0; $i < $size; $i++){?>
 
                         <div class ="chat user">
                             <p class = "message"><?= $_SESSION['user'][$i]?></p>
                         </div>
 
                         <div class ="chat bot">
-                            <div class = "profile"><img src="bot2.gif"></div>
+                            <div class = "profile"><img src="bot3.gif"></div>
                             <p class = "message"><?= $_SESSION['bot'][$i+2]->data?></p>
                         </div>
 
                         <?php
-                    $i++;
                     }?>
             </div>
 
+            <script>
+                var objDiv = document.getElementById("logs");
+                objDiv.scrollTop = objDiv.scrollHeight;
+            </script>
+            
             <div class="queries">
                 <textarea name="query" autofocus></textarea>
                 <audio id="soundSend" src="send.ogg" preload="auto"></audio>
                 <button onclick="document.getElementById('soundSend').play();">Ask</button>
+                <?php usleep(250000);?>
             </div>
-
+                    
             <input type="hidden" name="querySubmitted" value= "1"/>
         </div>
+
     </form>
     </body>
 </html>
