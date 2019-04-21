@@ -11,7 +11,7 @@ def read_dictionary(filename):
         lines = file.readlines()
         for line in lines:
             question,answer = line.strip().split(':|:')
-            dic.update({question:answer})
+            dic.update({question.lower():answer})
     return dic
 
 def randomQuestion(dic):
@@ -34,6 +34,7 @@ def answer(output,dic):
 
 def askBot(query,dic,method):
     query = removeStopWord(query)
+    query = query.lower()
     if method=="KMP":
         return answer(KMP(query,dic),dic)
     elif method == "BM":
