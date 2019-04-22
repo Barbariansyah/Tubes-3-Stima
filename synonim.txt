@@ -7,3 +7,9 @@ banyak :|: jumlah
 terletak :|: berada
 merupakan :|: adalah
 pencipta :|: pembuat
+dijajah :|: diduduki
+pandai :|: cerdas
+pandai :|: cerdik
+pandai :|: genius
+pandai :|: intelek
+pandai :|: terampil
