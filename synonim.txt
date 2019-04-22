@@ -6,3 +6,4 @@ tampan :|: ganteng
 banyak :|: jumlah
 terletak :|: berada
 merupakan :|: adalah
+pencipta :|: pembuat
