@@ -39,7 +39,7 @@ def KMPExact(pat,txt):
             found = True
             break
         elif i<N and pat[j]!=txt[i]:
-            if (exact < float(count_same/N) and count_same>2):
+            if (exact < float(count_same/N)):
                 exact = float(count_same/N)
             count_same = 0
             if j!=0:
@@ -47,7 +47,7 @@ def KMPExact(pat,txt):
             else:
                 i+=1
     if (j<M):
-        if (exact < float(count_same/N) and count_same>2):
+        if (exact < float(count_same/N)):
             exact = float(count_same/N)
     if (found):
         return exact
@@ -56,14 +56,10 @@ def KMPExact(pat,txt):
 
 def KMPNotExact(pat,txt):
     N = len(txt)
-    #print(N)
     conf =0
     same_char = 0
-    #print(N-txt.count(' '))
     for words in pat.split(' '):
         same_char += len(txt)*KMPExact(words,txt)
-        #print(same_char)
-        #print(words," ",KMPExact(words,txt)*len(txt))
     space = txt.count(' ')
     if (space>pat.count(' ')):
         space = pat.count(' ')
@@ -78,7 +74,6 @@ def KMP(query,dictionary):
     for keys in dictionary:
         #Jika ketemu persis 
         temp_keys = removeStopWord(keys)
-        #print(temp_keys)
         if (KMPExact(query,temp_keys)==1):
             output.append(keys)
             foundexact = True
@@ -93,7 +88,6 @@ def KMP(query,dictionary):
         output = []
         while not posiblequery.empty():
             data = posiblequery.get()
-            #print(1-data[0]," ",data[1])
             if ((1-data[0])>=0.75):
                 above9 = True
                 output.append(data[1])

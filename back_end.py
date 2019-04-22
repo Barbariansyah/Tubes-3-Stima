@@ -3,7 +3,7 @@ from StopWord import removeStopWord
 from BM import BM
 from KMP import KMP
 from Regex import Regex
-
+from Synonim import changeSynonim
 
 def read_dictionary(filename):
     dic = {}
@@ -11,7 +11,7 @@ def read_dictionary(filename):
         lines = file.readlines()
         for line in lines:
             question,answer = line.strip().split(':|:')
-            dic.update({question.lower():answer})
+            dic.update({question.lower().strip():answer.strip()})
     return dic
 
 def randomQuestion(dic):
@@ -35,6 +35,7 @@ def answer(output,dic):
 def askBot(query,dic,method):
     query = removeStopWord(query)
     query = query.lower()
+    query = changeSynonim(query)
     if method=="KMP":
         return answer(KMP(query,dic),dic)
     elif method == "BM":
